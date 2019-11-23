@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { PhotosComponent } from './photos/photos.component';
+import { PhotosModule } from './photos/photos.module';
 
-
-const routes: Routes = [];
-
+const routes: Routes = [
+  { path: '', redirectTo: 'photos', pathMatch: 'full' },
+  { path: 'photos', component: PhotosComponent },
+];
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes), PhotosModule],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
