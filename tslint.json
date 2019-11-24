@@ -8,6 +8,7 @@
     "no-floating-promises": false,
     "no-implicit-dependencies": [true, "dev"],
     "no-inferrable-types": [true, "ignore-params", "ignore-properties"],
+    "only-arrow-functions": [true, "allow-declarations", "allow-named-functions"],
     "ordered-imports": [
       true,
       {

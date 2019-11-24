@@ -9,6 +9,24 @@
         "@schematics/angular:component": {
           "style": "scss",
           "changeDetection": "OnPush"
+        },
+        "@ngrx/schematics:component": {
+          "styleext": "scss",
+          "changeDetection": "OnPush"
+        },
+        "@ngrx/schematics:entity": {
+          "creators": true,
+          "flat": false
+        },
+        "@ngrx/schematics:feature": {
+          "creators": true,
+          "flat": false,
+          "api": true
+        },
+        "@ngrx/schematics:effect": {
+          "creators": true,
+          "flat": false,
+          "api": true
         }
       },
       "root": "",
@@ -90,5 +108,8 @@
       }
     }
   },
-  "defaultProject": "gallery-app"
+  "defaultProject": "gallery-app",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

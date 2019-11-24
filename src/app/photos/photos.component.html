@@ -1,15 +1,18 @@
 <div class="gallery">
-  <mat-card class="example-card" *ngFor="let image of images">
+  <mat-card class="example-card" *ngFor="let photo of photoFacade.photos$ | async">
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
-      <mat-card-title>Shiba Inu</mat-card-title>
-      <mat-card-subtitle>Gallery: Dogs</mat-card-subtitle>
+      <mat-card-title>{{ photo.title }}</mat-card-title>
+      <mat-card-subtitle>Gallery: ???</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu" />
+    <img mat-card-image [src]="photo.url" [alt]="photo.title" />
     <mat-card-content>
       <p>
-        Uploaded by: Arthur Dent
+        Uploaded by: ????
       </p>
     </mat-card-content>
   </mat-card>
 </div>
+
+<mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" (page)="setPage($event)">
+</mat-paginator>
