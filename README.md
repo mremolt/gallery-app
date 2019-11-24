@@ -12,7 +12,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ## Development server
 
-Run `npm run api` for a dev API server Navigate to `http://localhost:3000/` to see what is included.
+Run `npm run api` for a dev API server. Navigate to `http://localhost:3000/` to see what is included.
 
 ## Code scaffolding
 
