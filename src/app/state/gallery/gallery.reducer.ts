@@ -1,29 +1,42 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { createReducer, on, Action } from '@ngrx/store';
+import { RequestState } from '../constants/request-state.enum';
+import * as GalleryActions from './gallery.actions';
 import { Gallery } from './gallery.model';
 
-export interface GalleryState {
+export const galleryFeatureKey = 'gallery';
+
+export interface State {
   entities: Array<Gallery>;
+  requestState: RequestState;
+  error: HttpErrorResponse | undefined;
 }
 
-export const initialState: GalleryState = {
+export const initialState: State = {
   entities: [],
+  requestState: RequestState.INITIAL,
+  error: undefined,
 };
 
-// { type:'LOAD...', galleries: [......] }
-// { type:'ADD...', gallery: {...} }
+const galleryReducer = createReducer(
+  initialState,
 
-export function galleryReducer(state: GalleryState = initialState, action: any): GalleryState {
-  switch (action.type) {
-    case 'GALLERY Load':
-      //state.entities = action.galleries;
-      return { ...state, entities: action.galleries };
+  on(GalleryActions.loadGalleries, state => ({
+    ...state,
+    requestState: RequestState.LOADING,
+    error: undefined,
+  })),
+  on(GalleryActions.loadGalleriesSuccess, (state, action) => ({
+    ...state,
+    requestState: RequestState.LOADED,
+    entities: action.data,
+  })),
+  on(GalleryActions.loadGalleriesFailure, (_state, action) => ({
+    ...initialState,
+    error: action.error,
+  }))
+);
 
-    case 'GALLERY Create':
-      return { ...state, entities: [...state.entities, action.gallery] };
-
-    case 'GALLERY Reset':
-      return initialState;
-
-    default:
-      return state;
-  }
+export function reducer(state: State | undefined, action: Action): State {
+  return galleryReducer(state, action);
 }

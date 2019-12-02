@@ -15,23 +15,24 @@ import { RouterFacade } from '../state/router/router.facde';
 })
 export class PhotosComponent implements OnInit, OnDestroy {
   private readonly onDestroy$: Subject<undefined> = new Subject();
+  private galleryId: number | undefined;
 
-  public constructor(public readonly photoFacade: PhotoFacade, private readonly routerFacade: RouterFacade) {}
+  public constructor(
+    public readonly photoFacade: PhotoFacade,
+    private readonly routerFacade: RouterFacade
+  ) {}
 
   public ngOnInit(): void {
-    this.photoFacade.load(1, 10);
-
     this.routerFacade.routeParams$.pipe(takeUntil(this.onDestroy$)).subscribe(params => {
-      console.log(params);
+      this.galleryId = params.galleryId;
+      this.photoFacade.load(1, 10, this.galleryId);
     });
   }
 
   public setPage(page: PageEvent): void {
-    console.log('Page', page);
-    this.photoFacade.load(page.pageIndex + 1, page.pageSize);
+    this.photoFacade.load(page.pageIndex + 1, page.pageSize, this.galleryId);
   }
 
-  // tslint:disable-next-line: no-empty
   public ngOnDestroy(): void {
     this.onDestroy$.next();
   }

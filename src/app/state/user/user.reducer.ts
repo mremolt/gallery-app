@@ -1,27 +1,24 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { createReducer, on, Action } from '@ngrx/store';
 
+import { RequestState } from '../constants/request-state.enum';
 import * as UserActions from './user.actions';
 import { User } from './user.model';
 
 export const userFeatureKey = 'user';
 
-export enum RequestState {
-  LOADING = 'LOADING',
-  LOADED = 'LOADED',
-  INITIAL = 'INITIAL',
-}
-
 export interface State {
   entities: Array<User>;
   requestState: RequestState;
   error: HttpErrorResponse | undefined;
+  activeUserId: number | undefined;
 }
 
 export const initialState: State = {
   entities: [],
   requestState: RequestState.INITIAL,
   error: undefined,
+  activeUserId: undefined,
 };
 
 const userReducer = createReducer(
@@ -42,6 +39,11 @@ const userReducer = createReducer(
   on(UserActions.loadUsersFailure, (_state, action) => ({
     ...initialState,
     error: action.error,
+  })),
+
+  on(UserActions.setActiveUserId, (state, { activeUserId }) => ({
+    ...state,
+    activeUserId: Number(activeUserId),
   }))
 );
 

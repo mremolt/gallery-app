@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'galleries/:galleryId/photos', component: PhotosComponent },
 
   { path: 'users', component: UsersComponent },
-  { path: 'users/:userId/photos', component: PhotosComponent },
+  { path: 'users/:userId/galleries', component: GalleriesComponent },
 ];
 
 @NgModule({

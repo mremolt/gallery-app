@@ -6,12 +6,15 @@ import { routerReducer } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 
 import { HttpClientModule } from '@angular/common/http';
+
 import { PhotoEffects } from './photo/photo.effects';
 import * as fromPhoto from './photo/photo.reducer';
 
-import { galleryReducer } from './gallery/gallery.reducer';
-import * as fromUser from './user/user.reducer';
+import { GalleryEffects } from './gallery/gallery.effects';
+import * as fromGallery from './gallery/gallery.reducer';
+
 import { UserEffects } from './user/user.effects';
+import * as fromUser from './user/user.reducer';
 
 @NgModule({
   declarations: [],
@@ -19,12 +22,12 @@ import { UserEffects } from './user/user.effects';
     CommonModule,
     HttpClientModule,
 
-    EffectsModule.forFeature([PhotoEffects, UserEffects]),
+    EffectsModule.forFeature([PhotoEffects, UserEffects, GalleryEffects]),
 
     StoreModule.forFeature('router', routerReducer),
-    StoreModule.forFeature('gallery', galleryReducer),
     StoreModule.forFeature(fromPhoto.photosFeatureKey, fromPhoto.reducer),
     StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
+    StoreModule.forFeature(fromGallery.galleryFeatureKey, fromGallery.reducer),
   ],
 })
 export class StateModule {}

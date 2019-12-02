@@ -14,7 +14,7 @@ export class PhotoEffects {
     this.actions$.pipe(
       ofType(loadPhotos),
       switchMap(action =>
-        this.service.load(action.page, action.limit).pipe(
+        this.service.load(action.page, action.limit, action.galleryId).pipe(
           map(photos => loadPhotosSuccess({ photos })),
           catchError(error => of(loadPhotosFailure({ error })))
         )
@@ -22,5 +22,8 @@ export class PhotoEffects {
     )
   );
 
-  public constructor(private readonly actions$: Actions, private readonly service: PhotoService) {}
+  public constructor(
+    private readonly actions$: Actions,
+    private readonly service: PhotoService
+  ) {}
 }

@@ -12,3 +12,8 @@ export const loadUsersFailure = createAction(
   '[User] Load Users Failure',
   props<{ error: any }>()
 );
+
+export const setActiveUserId = createAction(
+  '[User] Set Active User',
+  props<{ activeUserId: number }>()
+);

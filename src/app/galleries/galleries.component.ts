@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-import { Gallery } from '../state/gallery/gallery.model';
-import { selectGalleries, selectGalleryTitles } from '../state/gallery/gallery.selectors';
+import { Gallery, GalleryModel } from '../state/gallery/gallery.model';
+import { selectGalleryModels } from '../state/gallery/gallery.selectors';
+import { RouterFacade } from '../state/router/router.facde';
+import { setActiveUserId } from '../state/user/user.actions';
 
 @Component({
   selector: 'app-galleries',
@@ -12,38 +14,23 @@ import { selectGalleries, selectGalleryTitles } from '../state/gallery/gallery.s
   styleUrls: ['./galleries.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GalleriesComponent implements OnDestroy {
+export class GalleriesComponent implements OnInit, OnDestroy {
   public galleries: Array<Gallery> = [];
-  public readonly galleries$: Observable<Array<Gallery>> = this.store.pipe(select(selectGalleries));
+  public readonly galleries$: Observable<Array<GalleryModel>> = this.store.pipe(
+    select(selectGalleryModels)
+  );
 
   private readonly onDestroy$: Subject<undefined> = new Subject();
 
-  public constructor(private readonly store: Store<any>) {
-    this.store
-      .pipe(select(selectGalleryTitles), takeUntil(this.onDestroy$))
-      .subscribe(galleries => {
-        console.log('wefgezh4z4z4z', galleries);
-      });
+  public constructor(
+    private readonly store: Store<any>,
+    private readonly routerFacade: RouterFacade
+  ) {}
 
-    this.store.dispatch({
-      type: 'GALLERY Create',
-      gallery: { userId: 1, id: 12, title: 'Gallery 12' },
+  public ngOnInit(): void {
+    this.routerFacade.routeParams$.pipe(takeUntil(this.onDestroy$)).subscribe(params => {
+      this.store.dispatch(setActiveUserId({ activeUserId: params.userId }));
     });
-    this.store.dispatch({
-      type: 'GALLERY Create',
-      gallery: { userId: 1, id: 13, title: 'Gallery 13' },
-    });
-    this.store.dispatch({
-      type: 'GALLERY Create',
-      gallery: { userId: 1, id: 14, title: 'Gallery 14' },
-    });
-
-    setTimeout(() => {
-      this.store.dispatch({
-        type: 'GALLERY Create',
-        gallery: { userId: 1, id: 14, title: 'Gallery 14' },
-      });
-    }, 3000);
   }
 
   public ngOnDestroy(): void {
