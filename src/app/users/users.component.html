@@ -1,14 +1,16 @@
 <mat-list>
   <h3 mat-subheader>Users</h3>
-  <a
-    mat-list-item
-    *ngFor="let user of users$ | async"
-    [routerLink]="['/users', user.id, 'galleries']"
-  >
-    <mat-icon mat-list-icon>folder</mat-icon>
-    <h4 mat-line>{{ user.name }}</h4>
-    <p mat-line>{{ user.email }}</p>
-  </a>
+  <mat-list-item *ngFor="let user of users$ | async">
+    <mat-icon mat-list-icon>person</mat-icon>
+    <p matLine>{{ user.name }} <{{ user.email }}></p>
+
+    <button mat-icon-button [routerLink]="['/users', user.id, 'galleries']">
+      <mat-icon>photo_album</mat-icon>
+    </button>
+    <button mat-icon-button [routerLink]="['/users', user.id, 'todos']">
+      <mat-icon>done_outline</mat-icon>
+    </button>
+  </mat-list-item>
 </mat-list>
 
 <mat-spinner *ngIf="loading$ | async"></mat-spinner>
