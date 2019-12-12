@@ -1,18 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { environment } from '../../../environments/environment';
-import { User } from './user.model';
-import { delay } from 'rxjs/operators';
+import { Todo } from './todo.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class TodoService {
   public constructor(private readonly http: HttpClient) {}
 
-  public load(): Observable<Array<User>> {
-    return this.http.get<Array<User>>(`${environment.apiUrl}users`).pipe(delay(1000));
+  public load(): Observable<Array<Todo>> {
+    return this.http.get<Array<Todo>>(`${environment.apiUrl}todos`);
   }
 }

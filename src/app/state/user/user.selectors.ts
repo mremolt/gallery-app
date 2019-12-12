@@ -18,6 +18,9 @@ export const selectActiveUserId = createSelector(
   [selectUserState],
   state => state.activeUserId
 );
+
+// export const selectUsers2 = (state: any) => state.user.entities;
+
 export const selectActiveUser = createSelector(
   [selectUsers, selectActiveUserId],
   (users, id) => users.find(user => user.id === id)

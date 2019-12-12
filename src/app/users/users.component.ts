@@ -13,7 +13,17 @@ import { selectLoading, selectUsers } from '../state/user/user.selectors';
 })
 export class UsersComponent {
   public loading$: Observable<boolean> = this.store.pipe(select(selectLoading));
-  public users$: Observable<Array<User>> = this.store.pipe(select(selectUsers));
+  public users$: Observable<ReadonlyArray<User>> = this.store.pipe(select(selectUsers));
 
-  public constructor(private readonly store: Store<any>) {}
+  public constructor(private readonly store: Store<any>) {
+    this.store.dispatch({ type: 'PING' });
+
+    this.store.subscribe(state => {
+      console.log(selectUsers(state));
+    });
+
+    this.users$.subscribe(users => {
+      console.warn(users);
+    });
+  }
 }

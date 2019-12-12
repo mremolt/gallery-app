@@ -7,12 +7,19 @@ import { User } from './user.model';
 
 export const userFeatureKey = 'user';
 
-export interface State {
-  entities: Array<User>;
+// export interface State {
+//   entities: Array<User>;
+//   requestState: RequestState;
+//   error: HttpErrorResponse | undefined;
+//   activeUserId: number | undefined;
+// }
+
+export type State = Readonly<{
+  entities: ReadonlyArray<User>;
   requestState: RequestState;
   error: HttpErrorResponse | undefined;
   activeUserId: number | undefined;
-}
+}>;
 
 export const initialState: State = {
   entities: [],
@@ -36,15 +43,18 @@ const userReducer = createReducer(
     entities: action.data,
   })),
 
-  on(UserActions.loadUsersFailure, (_state, action) => ({
+  // on(UserActions.loadUsersFailure, (_state, action) => ({
+  on(UserActions.loadUsersFailure, (_state, { error }) => ({
     ...initialState,
-    error: action.error,
+    error,
   })),
 
   on(UserActions.setActiveUserId, (state, { activeUserId }) => ({
     ...state,
     activeUserId: Number(activeUserId),
-  }))
+  })),
+
+  on(UserActions.resetUsers, () => initialState)
 );
 
 export function reducer(state: State | undefined, action: Action): State {

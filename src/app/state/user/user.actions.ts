@@ -17,3 +17,5 @@ export const setActiveUserId = createAction(
   '[User] Set Active User',
   props<{ activeUserId: number }>()
 );
+
+export const resetUsers = createAction('[User] Reset Users');
